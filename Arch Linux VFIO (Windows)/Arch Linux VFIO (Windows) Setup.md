@@ -23,7 +23,7 @@ Secondly, get the latest Arch Linux ISO from the [official download page](https:
 
 If you are familiar with terminals this is your chance for your skills to shine, if not then don't worry, it is not as scary as it looks. Assuming you have the latest Arch Linux ISO run the following command in the terminal `archinstall`, this will bring up a GUI-like interface for you to install Arch Linux through. I am not going to walk you through installing Arch Linux using [archinstall](https://wiki.archlinux.org/title/archinstall) (there are plenty of thorough tutorials online and it is not that hard to navigate at all), instead I am going to tell you to make sure you do a few things during the install. **Please make sure you are [encrypting the drive](https://en.wikipedia.org/wiki/Disk_encryption#Full_disk_encryption) you are installing Linux to, this will add an extra layer of security and frankly should be a norm. Please also make sure you are choosing [proprietary NVIDIA drivers over open-source NVIDIA drivers](https://github.com/NVIDIA/open-gpu-kernel-modules/discussions/457) as proprietary just works better. Then finally choose [Pipewire](https://wiki.archlinux.org/title/PipeWire) for the audio drivers, [systemd-bootctl](https://wiki.archlinux.org/title/Systemd-boot) for the boot-loader, and [GNOME](https://wiki.archlinux.org/title/GNOME) as your desktop environment, these 3 steps will make your install experience a lot more easier and you can swap these out later if you prefer.**
 
-![Image](https://raw.githubusercontent.com/jpgcat/writeups/main/Arch%20Linux%20VFIO%20(Windows)/Pasted%20image%20230916064943.png)
+![Image](https://raw.githubusercontent.com/jpgcat/writeups/main/Arch%20Linux%20VFIO%20(Windows)/Pasted%20image%2020230916064943.png)
 
 Once Arch Linux is fully installed and you can access your system, it is time to tweak your VFIO setup so you can passthrough your second GPU. First check your devices using `lspci -nnk` in the Terminal, this will allow you to check your groups and get the IDs retaining to your GPU. Once you have found the correct GPU, keep that Terminal open and open a second Terminal and enter the command `vim /boot/loader/entries/*-*_linux.conf` you may need [Vim](https://www.freecodecamp.org/news/vim-beginners-guide/) which you can install through `sudo pacman -S vim`. In the config file find the line that starts with `options` and enter the following parameters to the end of the file `iommu=1 amd_iommu=on vfio-pci.ids= quiet splash` (swap out `amd_iommu` for `intel_iommu` if you are using an Intel CPU). Go back to the terminal that you ran `lspci -nnk` on and find the IDs. They should look something like this;  ![[Pasted image 20230916070359.png]]
 Once you have found the correct IDs go back to the Terminal with the boot loader config open and append the IDs to the end of `vfio-pci.ids=` separated by commas (example: `vfio-pci.ids=10de:1aed,10de1aec,10de:1aeb,10de:2184`) and then save the file.
@@ -69,7 +69,7 @@ Once your system is back, open Virtual Machine Manager ([virt-manager](https://w
 
 Once you have your ISO, go through and create a VM using virt-manager. Select your ISO through the Browse Local button, set the memory to be at least 8GB, your disk size to be at least 120GB and leave the vCPU config as is. Configure your virtual machine before installing and remove the network device, this will allow you to skip Microsofts account setup during the Windows install. Also choose `OVMF_CODE.secboot.fd` as your CPU firmware under the Overview tab, then click Begin Installation.
 
-![Image](https://raw.githubusercontent.com/jpgcat/writeups/main/Arch%20Linux%20VFIO%20(Windows)/Pasted%20image%20230916073114.png)
+![Image](https://raw.githubusercontent.com/jpgcat/writeups/main/Arch%20Linux%20VFIO%20(Windows)/Pasted%20image%2020230916073114.png)
 
 Once the VM has booted up into the Windows setup page select `English (International)` as your region, this will remove 'most' bloatware and 'most' advertising while going through driver setups like NVIDIA. Follow through with the install and select Windows (your version) Pro just so you have the most flexibility while using Windows. Windows should tell u that your computer does not meet the requirements, from here press the **Shift + F10** keys and follow the below;
 - Type in `regedit` to the command prompt.
@@ -85,7 +85,7 @@ Once Windows has successfully booted, shutdown the VM and add a network card to 
 
 Now start-up your VM again, once Windows has booted go to Files and look for the VirtIO Disk and Install the `virtio-win-gt-x64` drivers.
 
-![Image](https://raw.githubusercontent.com/jpgcat/writeups/main/Arch%20Linux%20VFIO%20(Windows)/Pasted%20image%20230916075848.png)
+![Image](https://raw.githubusercontent.com/jpgcat/writeups/main/Arch%20Linux%20VFIO%20(Windows)/Pasted%20image%2020230916075848.png)
 
 Now it is best to make sure your Windows system is up to date, run the Windows Update tool and update your Windows system. Once updating has completed reboot your system again.
 
