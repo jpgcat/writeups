@@ -71,7 +71,7 @@ Once you have your ISO, go through and create a VM using virt-manager. Select yo
 
 ![Image](https://raw.githubusercontent.com/jpgcat/writeups/main/Arch%20Linux%20VFIO%20(Windows)/Pasted%20image%2020230916073114.png)
 
-Once the VM has booted up into the Windows setup page select `English (International)` as your region, this will remove 'most' bloatware and 'most' advertising while going through driver setups like NVIDIA. Follow through with the install and select Windows (your version) Pro just so you have the most flexibility while using Windows. Windows should tell u that your computer does not meet the requirements, from here press the **Shift + F10** keys and follow the below;
+Once the VM has booted up into the Windows setup page select `English (International)` as your region, this will remove 'most' bloatware and 'most' advertising while going through driver setups like NVIDIA. Follow through with the install and select Windows (your version) Pro just so you have the most flexibility while using Windows. Windows should tell you that your computer does not meet the requirements, from here press the **Shift + F10** keys and follow the below;
 - Type in `regedit` to the command prompt.
 - Navigate to `HKEY_LOCAL_MACHINE \ System \ Setup` in [Registry Editor](https://en.wikipedia.org/wiki/Windows_Registry).
 - Left click on the list and add a new Key named `LabConfig`.
